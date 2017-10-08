@@ -1,0 +1,17 @@
+{
+  "name": "fb-live-interact",
+  "version": "1.0.0",
+  "description": "Adds Interactivity to Facebook Live!",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "Phoomparin Mano <work@phoom.in.th>",
+  "website": "https://phoom.in.th",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "request": "^2.78.0",
+    "request-promise": "^4.1.1"
+  }
+}
