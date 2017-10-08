@@ -1,4 +1,4 @@
-const {Writable, PassThrough} = require('stream')
+const {PassThrough} = require('stream')
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
 
@@ -50,24 +50,18 @@ function Encoder(input, output) {
   return vOutput
 }
 
-class VideoStream extends Writable {
-  constructor(rtmpUrl) {
-    super()
+function VideoStream(rtmpUrl) {
+  // Input Stream
+  const input = PassThrough()
 
-    // Input Stream
-    this.input = new PassThrough()
+  // FFMPEG Encoder Instance
+  const encoder = Encoder(input, rtmpUrl)
+    .on('data', data => console.info('On Data', data))
+    .on('error', err => console.warn('On Error', err))
+    .on('end', () => console.info('On End', data))
+    .run()
 
-    // FFMPEG Encoder Instance
-    const encoder = Encoder(this.input, rtmpUrl)
-      .on('data', data => console.info('On Data', data))
-      .on('error', err => console.warn('On Error', err))
-      .on('end', () => console.info('On End', data))
-      .run()
-  }
-
-  write(buffer) {
-    this.input.write(buffer)
-  }
+  return {write: buffer => input.write(buffer)}
 }
 
 module.exports = VideoStream

@@ -19,8 +19,8 @@ async function start() {
   console.info('Facebook Live ID is', id)
   console.info('Stream URL is', stream_url)
 
-  const stream = new VideoStream(stream_url)
-  const stop = await renderScreen(id, accessToken, stream)
+  const stream = VideoStream(stream_url)
+  const stop = await renderScreen(id, accessToken, stream.write)
 }
 
 function exitHandler(options, err) {

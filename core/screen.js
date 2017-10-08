@@ -3,7 +3,7 @@ const {fps, size, uiPath} = require('../config')
 
 const debug = process.env.DEBUG === 'true'
 
-async function renderScreen(id, token, stream) {
+async function renderScreen(id, token, callback) {
   if (!id) throw new Error('Missing Video ID!')
 
   const screenURL = `file://${uiPath}?debug=${debug}&accessToken=${token}&postId=${id}`
@@ -15,7 +15,7 @@ async function renderScreen(id, token, stream) {
 
   const loop = setInterval(async () => {
     const buffer = await page.screenshot()
-    stream.write(buffer)
+    callback(buffer)
   }, 1000 / fps)
 
   return async function stop(code) {
