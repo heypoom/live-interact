@@ -1,3 +1,4 @@
 node_modules/
 result/
 stream.log
+.DS_Store
