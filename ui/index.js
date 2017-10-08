@@ -9,16 +9,16 @@ const postId = qs.get('postId')
 const debug = qs.get('debug') === 'true'
 
 // Selectors
-const like = document.querySelector('.like .counter')
-const love = document.querySelector('.love .counter')
-const sad = document.querySelector('.sad .counter')
-const haha = document.querySelector('.haha .counter')
-const angry = document.querySelector('.angry .counter')
-const shock = document.querySelector('.shock .counter')
-const error = document.querySelector('#error')
+let like,
+  love,
+  sad,
+  haha,
+  angry,
+  shock,
+  error = {}
 
 const parseReacts = e =>
-  `reactions.type(${e}).limit(0).summary(total_count).as('reactions_${e.toLowerCase()}')`
+  `reactions.type(${e}).limit(0).summary(total_count).as(reactions_${e.toLowerCase()})`
 
 const reactions = ['LIKE', 'LOVE', 'WOW', 'HAHA', 'SAD', 'ANGRY']
   .map(parseReacts)
@@ -33,7 +33,7 @@ function refreshCounts() {
     angry.innerHTML = Number(angry.innerHTML) + Math.floor(Math.random() * 10)
     shock.innerHTML = Number(shock.innerHTML) + Math.floor(Math.random() * 10)
   } else {
-    const url = `https://graph.facebook.com/love.8/${postId}?fields=${reactions}&access_token=${accessToken}`
+    const url = `https://graph.facebook.com/v2.8/${postId}?fields=${reactions}&access_token=${accessToken}`
 
     apiCall(url, res => {
       if (res.error) {
@@ -56,12 +56,11 @@ function apiCall(url, callback) {
 
   req.onreadystatechange = function() {
     if (req.readyState == XMLHttpRequest.DONE) {
-      try {
-        var res = JSON.parse(xmlhttp.responseText)
-      } catch (error) {}
-      if (xmlhttp.status == 200) {
+      const res = JSON.parse(req.responseText)
+
+      if (res.status == 200) {
         callback(res)
-      } else if (xmlhttp.status == 400) {
+      } else if (res.status == 400) {
         console.log('There was an error 400', res)
         callback(res)
       } else {
@@ -76,11 +75,21 @@ function apiCall(url, callback) {
 }
 
 window.onload = function() {
+  // Selectors
+
+  like = document.querySelector('.like .counter')
+  love = document.querySelector('.love .counter')
+  sad = document.querySelector('.sad .counter')
+  haha = document.querySelector('.haha .counter')
+  angry = document.querySelector('.angry .counter')
+  shock = document.querySelector('.shock .counter')
+  error = document.getElementById('error')
+
   if (debug || (accessToken && postId)) {
     setInterval(refreshCounts, refreshTime * 1000)
     refreshCounts()
   } else {
-    error.innerHTML = 'AccessToken or PostId not set! check your query params'
+    error.innerHTML = 'AccessToken or PostId not set!'
     error.style.display = 'block'
   }
 }
