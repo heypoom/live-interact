@@ -1,7 +1,10 @@
 const {Writable, PassThrough} = require('stream')
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path
 const ffmpeg = require('fluent-ffmpeg')
 
 const {fps, logFile, size} = require('../config')
+
+ffmpeg.setFfmpegPath(ffmpegPath)
 
 // Custom FFMPEG Flags
 // prettier-ignore
