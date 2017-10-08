@@ -15,10 +15,10 @@ html {
 }
 
 body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  color: #333;
-  width: 100%;
+  margin: 0 auto;
+  font-family: Helvetica Neue, Roboto, Open Sans, sans-serif;
+  color: #555;
+  width: 70%;
   height: 100%;
   /*background: rgba(0, 0, 0, 0.3)*/
 }
@@ -29,8 +29,8 @@ header {
 
 header .logo {
   position: relative;
-  margin: 50px;
-  height: 44px;
+  margin: 50px 0px;
+  height: 55px;
 }
 
 footer {
@@ -47,6 +47,7 @@ footer {
 }
 
 h1 {
+  font-weight: 300;
   text-align: center;
   width: 100%;
   font-size: 50px;
@@ -58,14 +59,13 @@ h1 {
 #wrap {
   position: relative;
   margin: 0px auto;
-  width: 1280px;
-  height: 720px;
 }
 
 .tc {
   text-align: center;
   font-size: 3rem;
   font-weight: bold;
+  box-shadow: 0px 0px 4px 2px #12b9a6;
 }
 
 .wf {
