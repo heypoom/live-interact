@@ -4,7 +4,11 @@
   "description": "Adds Interactivity to Facebook Live!",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "./build.sh",
+    "restart": "docker kill live-interact; yarn build && yarn serve",
+    "serve":
+      "docker run --rm -d -p 8080:8080 --cap-add=SYS_ADMIN --name live-interact live-interact yarn start"
   },
   "author": "Phoomparin Mano <work@phoom.in.th>",
   "website": "https://phoom.in.th",
@@ -18,6 +22,6 @@
     "request-promise": "^4.1.1"
   },
   "engines": {
-    "node": "~8.4.0"
+    "node": "8"
   }
 }
