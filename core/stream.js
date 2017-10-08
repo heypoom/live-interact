@@ -1,42 +1,34 @@
 const fs = require('fs')
 const {Writable} = require('stream')
 const {spawn} = require('child_process')
-const {fps, logFile} = require('../config')
 
+const {fps, logFile, size: {width, height}} = require('../config')
+
+// prettier-ignore
 const ffmpegFlags = [
-  '-threads',
-  '0',
-  '-y',
-  '-v',
-  'verbose',
-  '-c:v',
-  'png',
-  '-r',
-  fps,
-  '-f',
-  'image2pipe',
-  '-i',
-  '-',
-  '-f',
-  'lavfi',
-  '-i',
-  'anullsrc',
-  '-acodec',
-  'aac',
-  '-ac',
-  '1',
-  '-ar',
-  '44100',
-  '-b:a',
-  '128k',
-  '-c:v',
-  'libx264',
-  '-s',
-  `1280x720`,
-  '-pix_fmt',
-  'yuv420p',
-  '-f',
-  'flv'
+  '-threads', '0',            // Threads: 0
+  '-y',                       // Replace Existing File
+  '-v',       'verbose',      // Logging Level: Verbose
+
+  // Inputs
+  '-c:v',     'png',          // Video Codec: PNG
+  '-r',       fps,            // Frames Per Second
+  '-f',       'image2pipe',   // Video Format: Image to Pipe
+  '-i',       '-',            // Input: Piped from stdin
+  '-f',       'lavfi',        // Video Format: LAVFI
+
+  // Audio Settings
+  '-i',       'anullsrc',     // Source: Null Audio Source
+  '-acodec',  'aac',          // Codec: AAC
+  '-ac',      '1',            // Channels: 1
+  '-ar',      '44100',        // Frequency: 44100
+  '-b:a',     '128k',         // Bitrate: 128k
+
+  // Video Output
+  '-c:v',     'libx264',              // Video Codec: libx264
+  '-s',       `${width}x${height}`,   // Size: width x height
+  '-pix_fmt', 'yuv420p',              // Pix Format: YUV420P
+  '-f',       'flv'                   // Video Format: FLV
 ]
 
 const logStream = fs.createWriteStream(logFile)
