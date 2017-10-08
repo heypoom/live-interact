@@ -35,8 +35,8 @@ function Encoder(input, output) {
 
   // Video Output
   // Codec: H264 (libx264)
-  // Output: RTMP Stream to Facebook Live
   // Pix Format: YUV420P
+  // Output: RTMP Stream to Facebook Live
   const vOutput = vAudio
     .addOption('-c:v', 'libx264')
     .size(`${size.width}x${size.height}`)
