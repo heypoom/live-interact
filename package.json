@@ -2,9 +2,9 @@
   "name": "fb-live-interact",
   "version": "1.0.0",
   "description": "Adds Interactivity to Facebook Live!",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "author": "Phoomparin Mano <work@phoom.in.th>",
   "website": "https://phoom.in.th",
