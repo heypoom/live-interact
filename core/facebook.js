@@ -1,4 +1,5 @@
 const req = require('request-promise')
+const {fbUID} = require('../config')
 
 async function startLiveVideo(data) {
   const {id} = await req({
@@ -43,3 +44,10 @@ exports.getLiveVideo = getLiveVideo
 exports.deleteLiveVideo = deleteLiveVideo
 exports.endLiveVideo = endLiveVideo
 exports.getAllLiveVideos = getAllLiveVideos
+
+exports.privacies = {
+  public: "{'value': 'EVERYONE'}",
+  friends: "{'value': 'ALL_FRIENDS'}",
+  friends_of_friends: "{'value': 'FRIENDS_OF_FRIENDS'}",
+  private: `{'value':'CUSTOM', allow:'${fbUID}'}`
+}

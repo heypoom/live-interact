@@ -1,7 +1,7 @@
 const VideoStream = require('./core/stream')
-const facebook = require('./core/facebook')
+const {privacies, ...Facebook} = require('./core/facebook')
 const renderScreen = require('./core/screen')
-const {fps, logFile, fbUID, title, privacy} = require('./config')
+const {fps, logFile, title, privacy, removeClip} = require('./config')
 
 const accessToken = process.env.FB_ACCESS_TOKEN
 
@@ -10,17 +10,10 @@ let postId = null
 
 if (!accessToken) throw new Error('FB_ACCESS_TOKEN not given!')
 
-const privacies = {
-  public: "{'value': 'EVERYONE'}",
-  friends: "{'value': 'ALL_FRIENDS'}",
-  friends_of_friends: "{'value': 'FRIENDS_OF_FRIENDS'}",
-  private: `{'value':'CUSTOM', allow:'${fbUID}'}`
-}
-
 const options = {accessToken, title, privacy: privacies[privacy]}
 
 async function start() {
-  const {stream_url, id} = await facebook.startLiveVideo(options)
+  const {stream_url, id} = await Facebook.startLiveVideo(options)
   postId = id
 
   console.info('Facebook Live ID is', id)
@@ -35,8 +28,9 @@ function exitHandler(options, err) {
     if (streamProcess) streamProcess.kill('SIGINT')
 
     if (accessToken && postId) {
-      facebook.endLiveVideo(postId, accessToken)
-      // facebook.deleteLiveVideo(postId, accessToken)
+      Facebook.endLiveVideo(postId, accessToken)
+
+      if (removeClip) Facebook.deleteLiveVideo(postId, accessToken)
     }
   }
 

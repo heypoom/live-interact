@@ -8,5 +8,6 @@ module.exports = {
   size: {
     width: 1280,
     height: 720
-  }
+  },
+  removeClip: false
 }

@@ -1,3 +1,4 @@
+const fs = require('fs')
 const {Writable} = require('stream')
 const {spawn} = require('child_process')
 const {fps, logFile} = require('../config')
@@ -31,26 +32,25 @@ const ffmpegFlags = [
   '-c:v',
   'libx264',
   '-s',
-  '1280x720',
+  `1280x720`,
   '-pix_fmt',
   'yuv420p',
   '-f',
   'flv'
 ]
 
-const log = `>> ${logFile} 2>&1`
+const logStream = fs.createWriteStream(logFile)
 
 class VideoStream extends Writable {
   constructor(rtmpUrl) {
     super()
     const args = [...ffmpegFlags, rtmpUrl]
     const stdio = ['pipe', 1, 2, 'ipc']
-
-    this.ffmpeg = spawn('ffmpeg', args, {stdio}).stdin
+    this.ffmpeg = spawn('ffmpeg', args, {stdio})
   }
 
   write(buffer, encoding, callback) {
-    this.ffmpeg.write(buffer)
+    this.ffmpeg.stdin.write(buffer)
   }
 }
 
