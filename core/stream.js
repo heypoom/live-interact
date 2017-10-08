@@ -1,11 +1,7 @@
-const fs = require('fs')
 const {Writable, PassThrough} = require('stream')
-const {spawn} = require('child_process')
 const ffmpeg = require('fluent-ffmpeg')
 
 const {fps, logFile, size} = require('../config')
-
-const logStream = fs.createWriteStream(logFile)
 
 // prettier-ignore
 const customFlags = [
