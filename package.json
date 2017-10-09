@@ -7,8 +7,7 @@
     "start": "node index.js",
     "build": "./build.sh",
     "restart": "docker kill live-interact; yarn build && yarn serve",
-    "serve":
-      "docker run --rm -d -p 8080:8080 --cap-add=SYS_ADMIN --name live-interact live-interact yarn start"
+    "serve": "docker run --rm -d -p 8080:8080 --cap-add=SYS_ADMIN --name live-interact live-interact yarn start"
   },
   "author": "Phoomparin Mano <work@phoom.in.th>",
   "website": "https://phoom.in.th",
@@ -17,6 +16,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.0.13",
     "bluebird": "^3.4.6",
     "fluent-ffmpeg": "^2.1.2",
+    "provable": "^0.2.2",
     "puppeteer": "^0.11.0",
     "request": "^2.78.0",
     "request-promise": "^4.1.1"
